@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let fuel, height, people;
+        height = 0;
+        do {
+            fuel = parseInt(prompt('Podaj ilość paliwa w litrach z przedziału 5000 - 30000 litrów'));
+        } while (fuel < 5000 || fuel > 30000);
+        console.log(`Ilość paliwa to: ${fuel} litrów`);
+        do {
+            people = parseInt(prompt('Podaj ilość astronautów, ale nie więcej niż 7'));
+        } while (people < 1 || people > 7);
+        console.log(`Ilość astronautów to: ${people}`)
+        do {
+            fuel -= 300 + (100 * people)
+            if (fuel < 0) {
+                fuel = 0;
+            };
+            console.log(`Lot wykonał ${height} km`)
+            console.log(`Pozostałe paliwo: ${fuel} litrów`)
+            height += 100;
+        } while (fuel > 0);
+
+        if (height > 2000) {
+            alert('Statek kosmiczny dotarł do orbity');
+        } else {
+            alert('Statek kosmiczny nie dotarł do orbity');
+        }
+    </script>
+</body>
+
+</html>

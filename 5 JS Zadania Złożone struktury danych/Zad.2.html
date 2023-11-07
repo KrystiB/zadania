@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let names = ['Jan', 'Grzegorz', 'Krzysztof', 'Maciej', 'Joanna', 'Izabela', 'Magdalena', 'Kinga', 'Kacper']
+
+        let first = names[0];
+        let last = names[names.length - 1];
+        let secondToLast = names[names.length - 2];
+        let middleElement = names[Math.floor(names.length / 2)];
+
+        console.log(first);
+        console.log(last);
+        console.log(secondToLast);
+        console.log(middleElement);
+
+        names.push('Krystian', 'Martyna');
+        names.unshift('Jakub');
+
+        first = names[0];
+        last = names[names.length - 1];
+        secondToLast = names[names.length - 2];
+        middleElement = names[Math.floor(names.length / 2)];
+
+        console.log(first);
+        console.log(last);
+        console.log(secondToLast);
+        console.log(middleElement);
+    </script>
+</body>
+
+</html>
