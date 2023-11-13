@@ -18,10 +18,9 @@ map.forEach((value, country) => {
     if (value > maxValue) {
         maxValue = value;
         countryWithMaxValue = country;
-        countryWithMaxValue.slice
     }
 });
 
 console.log(
-    `Najwięcej uczestników ma ${countryWithMaxValue} ${maxValue} ludzi`
+    `Najwięcej uczestników ma ${countryWithMaxValue.replace(/:/g, '')} ${maxValue} ludzi`
 );
