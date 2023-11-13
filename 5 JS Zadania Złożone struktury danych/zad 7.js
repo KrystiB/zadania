@@ -10,5 +10,18 @@
     ['Swahili:', 4],
     ['Serbian:', 4],
     ['English:', 91],
-])
-// ????
+]);
+let maxValue = 0;
+let countryWithMaxValue = '';
+
+map.forEach((value, country) => {
+    if (value > maxValue) {
+        maxValue = value;
+        countryWithMaxValue = country;
+        countryWithMaxValue.slice
+    }
+});
+
+console.log(
+    `Najwięcej uczestników ma ${countryWithMaxValue} ${maxValue} ludzi`
+);

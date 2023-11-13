@@ -1,0 +1,1 @@
+﻿// zamiast function wystepuje strzalka
