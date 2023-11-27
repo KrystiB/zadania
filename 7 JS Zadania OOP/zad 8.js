@@ -9,11 +9,13 @@
     }
 }
 
-const orderMap = new Map();
-
-for (let i = 0; i < 5; i++) {
-    const order = new Order(50 + (50 * i), `Produkt ${i + 1}`);
-    orderMap.set(order.id, order);
+function orderMap() {
+    const orderMap = new Map();
+    for (let i = 0; i < 5; i++) {
+        const order = new Order(50 + 50 * i, `Produkt ${i + 1}`);
+        orderMap.set(order.id, order);
+    }
+    return orderMap
 }
 
-console.log(orderMap)
+console.log(orderMap());
