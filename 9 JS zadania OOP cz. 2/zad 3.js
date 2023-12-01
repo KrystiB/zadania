@@ -6,11 +6,11 @@
     #password;
     #dateJoined;
     constructor(name, surname, email, gender, password, dateJoined) {
-        this.#name = name;
-        this.#surname = surname;
-        this.#email = email;
-        this.#gender = gender;
-        this.#password = password;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.gender = gender;
+        this.password = password;
         this.#dateJoined = dateJoined || new Date();
     }
 

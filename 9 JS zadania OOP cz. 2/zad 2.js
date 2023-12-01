@@ -23,14 +23,30 @@ function createRandomVessels() {
     }
     return waterVessels;
 }
-function pourWater(waterVessels, waterCanister) {
-    for 
+
+function pourWater(waterVessels) {
+    let waterCanister = 1000;
+
+    for (const vessel of waterVessels) {
+        while (vessel.waterVolume < vessel.volume && waterCanister > 0) {
+            const amountToAdd = Math.min(
+                vessel.volume - vessel.waterVolume,
+                waterCanister
+            );
+            vessel.waterVolume += amountToAdd;
+            waterCanister -= amountToAdd;
+        }
+    }
+    return waterCanister;
 }
 
 const vesselsList = createRandomVessels();
+const remainingWater = pourWater(vesselsList);
 
-let waterCanister = 1000;
-
-console.log(vesselsList);
-
-console.log(`Remaining water in the canister: ${waterCanister}`);
+console.log('Results:');
+for (const vessel of vesselsList) {
+    console.log(
+        `Vessel ${vessel.id}: Capacity - ${vessel.volume}, Water - ${vessel.waterVolume}`
+    );
+}
+console.log(`Remaining water in the canister: ${remainingWater}`);
