@@ -1,0 +1,27 @@
+﻿<!-- index.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JavaScript for Everyone:DOM</title>
+    <style>
+        .button {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="button">Get Started</button>
+
+
+    <script>
+        const button = document.querySelector('.button');
+        button.style.backgroundColor = '#007bff';
+        button.style.color = 'white';
+        button.innerHTML = 'Buy now'
+    </script>
+</body>
+
+</html>

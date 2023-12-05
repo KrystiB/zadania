@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="header">
+    </div>
+    <section id="container">
+        <ul>
+            <li class="first">student I</li>
+            <li class="second">student II</li>
+            <li class="third">student III</li>
+        </ul>
+        <ol>
+            <li class="first">student</li>
+            <li class="second">student</li>
+            <li class="third">student</li>
+        </ol>
+    </section>
+    <div class="footer">
+    </div>
+
+    <script>
+        const containerWithoutQuerySelector = document.getElementById('container');
+        const containerWithQuerySelector = document.querySelector('#container');
+        const secondClassElements = document.querySelectorAll('.second');
+        const thirdClassElementsInOl = document.querySelectorAll('ol .third');
+
+        containerWithQuerySelector.innerHTML += '<p>Hello</p>';
+
+        const newLiElement = document.createElement('li');
+        newLiElement.textContent = 'Hello!';
+        containerWithQuerySelector.appendChild(newLiElement);
+
+        const footerElement = document.querySelector('.footer');
+        footerElement.parentNode.removeChild(footerElement);
+
+        const olElements = document.querySelectorAll('ol li');
+        olElements.forEach(element => {
+            element.style.color = '#dbc110';
+        });
+    </script>
+</body>
+
+</html>
