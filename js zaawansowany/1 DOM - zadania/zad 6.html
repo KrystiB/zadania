@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .button{
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <button class="btn-random-color">Change</button>
+
+
+
+    <script>
+        const buttonRandomColor = document.querySelector('.btn-random-color');
+        function randomBackgroundColor() {
+            let r = Math.floor(Math.random()*256);
+            let g = Math.floor(Math.random()*256);
+            let b = Math.floor(Math.random()*256);
+            let newBackgroundColor = `rgb(${r},${g},${b})`
+            document.body.style.backgroundColor = newBackgroundColor;
+        }
+        buttonRandomColor.addEventListener('click', randomBackgroundColor)
+    </script>
+</body>
+
+</html>
