@@ -38,7 +38,6 @@ fetchData(countriesAPI)
         console.log('\n\n10 najbardziej zaludnionych krajów: ');
         countries.slice(0).sort((a,b) => b.population - a.population).slice(0,10).forEach((country) => console.log(`${country.name.common} o populacji ${country.population} osób`));
         return countries;
-        
     })
     .then(() => {
         return fetchData(catsAPI);
