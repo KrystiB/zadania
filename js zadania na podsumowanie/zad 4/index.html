@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            label {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            input[type='text'] {
+                width: 100%;
+                padding: 5px;
+            }
+
+            button {
+                padding: 8px 15px;
+                background-color: #4caf50;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            button:disabled {
+                background-color: #ccc;
+                cursor: not-allowed;
+            }
+
+            .error-message {
+                color: red;
+                margin-top: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="form-container"></div>
+        <script>
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const jsonConfig = [
+                    { name: 'Imię', type: 'text', validation: /^[a-zA-Z\s]+$/ },
+                    {
+                        name: 'Email',
+                        type: 'text',
+                        validation: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    },
+                    {
+                        name: 'Telefon',
+                        type: 'text',
+                        validation: /^(\+[0-9]{2})?[0-9]{9}$/,
+                    },
+                    { name: 'Adres', type: 'text', validation: /^[a-zA-Z0-9\s,'-]*$/ },
+                    { name: 'Miasto', type: 'text', validation: /^[a-zA-Z\s]+$/ },
+                    {
+                        name: 'Kod pocztowy',
+                        type: 'text',
+                        validation: /^[0-9]{2}-[0-9]{3}$/,
+                    },
+                    { name: 'Kraj', type: 'text', validation: /^[a-zA-Z\s]+$/ },
+                ];
+
+                generateForm(jsonConfig);
+            });
+
+            function generateForm(jsonConfig) {
+                const formContainer = document.getElementById('form-container');
+
+                const form = document.createElement('form');
+
+                jsonConfig.forEach((field) => {
+                    const label = document.createElement('label');
+                    label.textContent = field.name;
+
+                    const input = document.createElement('input');
+                    input.type = field.type;
+                    input.name = field.name;
+
+                    label.appendChild(input);
+                    form.appendChild(label);
+                });
+
+                const button = document.createElement('button');
+                button.textContent = 'Wyślij';
+
+                form.appendChild(button);
+
+                formContainer.appendChild(form);
+
+                form.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    validateForm(jsonConfig);
+                });
+            }
+            
+            function validateForm(jsonConfig) {
+                const form = document.querySelector('form');
+                const inputs = form.querySelectorAll('input');
+
+                let isValid = true;
+
+                inputs.forEach((input, index) => {
+                    const field = jsonConfig[index];
+                    const error = input.parentNode.querySelector('.error-message');
+
+                    if (field.validation) {
+                        if (!field.validation.test(input.value)) {
+                            isValid = false;
+
+                            if (!error) {
+                                showError(
+                                    input,
+                                    field.errorMessage || 'Nieprawidłowy format'
+                                );
+                            }
+                        } else {
+                            hideError(input);
+                        }
+                    }
+                });
+
+                if (isValid) {
+                    resetErrors();
+                    alert('Formularz wysłany pomyślnie!');
+                    resetForm();
+                }
+            }
+
+            function showError(input, message) {
+                const error = document.createElement('div');
+                error.className = 'error-message';
+                error.textContent = message;
+
+                input.parentNode.appendChild(error);
+            }
+
+            function hideError(input) {
+                const error = input.parentNode.querySelector('.error-message');
+
+                if (error) {
+                    error.remove();
+                }
+            }
+
+            function resetErrors() {
+                const errors = document.querySelectorAll('.error-message');
+                errors.forEach((error) => error.remove());
+            }
+
+            function resetForm() {
+                const form = document.querySelector('form');
+                const button = form.querySelector('button');
+                form.reset();
+                button.disabled = false;
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Admin Panel</title>
+  </head>
+  <body>
+    <h1>Admin Panel</h1>
+    <div>
+      <label for="search">Search:</label>
+      <input type="text" id="search" placeholder="Search..." />
+    </div>
+    <table id="commentsTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Body</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="commentsBody">
+        <!-- Tutaj beda komentarze dodawana dynamicznie -->
+      </tbody>
+    </table>
+    <button id="deleteSelected">Delete Selected</button>
+
+    <script src="script.js"></script>
+  </body>
+</html>
