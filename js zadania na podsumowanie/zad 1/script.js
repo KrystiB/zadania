@@ -1,24 +1,30 @@
-function createTableRow(comment) {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-    <td>${comment.name}</td>
-    <td>${comment.email}</td>
-    <td>${comment.body}</td>
-    <td><button onclick="deleteComment(${comment.id})">Delete</button></td>
-  `;
-    return row;
-}
-
-function deleteComment(commentId) {
-    console.log('Nie znaleziono komentarza o id', commentId);
-}
 document.addEventListener('DOMContentLoaded', async function () {
+
     function deleteSelectedComments() {
         const selectedRows = document.querySelectorAll('#commentsBody input:checked');
         selectedRows.forEach((row) => {
             const commentId = row.dataset.id;
             deleteComment(commentId);
         });
+    }
+
+    function createTableRow(comment) {
+        const row = document.createElement('tr');
+        row.dataset.id = comment.id;
+        row.innerHTML = `
+            <td>${comment.name}</td>
+            <td>${comment.email}</td>
+            <td>${comment.body}</td>
+            <td><button type="button">Delete</button></td>
+        `;
+
+        const deleteBtn = row.querySelector('button');
+        deleteBtn.addEventListener('click', () => {
+            const commentId = row.dataset.id;
+            deleteComment(commentId);
+        });
+
+        return row;
     }
 
     function filterComments() {
@@ -42,7 +48,22 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     }
 
-    const commentsTable = document.querySelector('#commentsTable');
+    async function deleteComment(commentId) {
+        try {
+            const response = await fetch(`https://jsonplaceholder.typicode.com/comments/${commentId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                console.log(`Komentarz o ID ${commentId} został pomyślnie usunięty.`);
+            } else {
+                console.log(`Błąd podczas usuwania komentarza o ID ${commentId}.`);
+            }
+        } catch (error) {
+            console.error('Błąd usuwania komentarza:', error);
+        }
+    }
+
     const commentsBody = document.querySelector('#commentsBody');
     const deleteSelectedBtn = document.querySelector('#deleteSelected');
     const searchInput = document.querySelector('#search');
@@ -55,8 +76,8 @@ document.addEventListener('DOMContentLoaded', async function () {
             const row = createTableRow(comment);
             commentsBody.appendChild(row);
         });
-        deleteSelectedBtn.addEventListener('click', deleteSelectedComments);
 
+        deleteSelectedBtn.addEventListener('click', deleteSelectedComments);
         searchInput.addEventListener('input', filterComments);
     } catch (error) {
         console.log('Błąd pobierania danych', error);
