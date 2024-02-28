@@ -38,44 +38,86 @@ interface Admin {
     role: string;
 }
 
-export type Person = User | Admin;
+function logUser(user: User) {
+    const pos = users.indexOf(user) + 1;
+    console.log(` - #${pos} User: ${user.name}, ${user.age}, ${user.occupation}`);
+}
 
-export const persons: Person[] = [
-    { type: 'user', name: 'Max Mustermann', age: 25, occupation: 'Chimney sweep' },
-    { type: 'admin', name: 'Jane Doe', age: 32, role: 'Administrator' },
-    { type: 'user', name: 'Kate Müller', age: 23, occupation: 'Astronaut' },
-    { type: 'admin', name: 'Bruce Willis', age: 64, role: 'World saver' },
-    { type: 'user', name: 'Wilson', age: 23, occupation: 'Ball' },
-    { type: 'admin', name: 'Agent Smith', age: 23, role: 'Anti-virus engineer' }
+function logAdmin(admin: Admin) {
+    const pos = admins.indexOf(admin) + 1;
+    console.log(` - #${pos} Admin: ${admin.name}, ${admin.age}, ${admin.role}`);
+}
+
+const admins: Admin[] = [
+    {
+        type: 'admin',
+        name: 'Will Bruces',
+        age: 30,
+        role: 'Overseer'
+    },
+    {
+        type: 'admin',
+        name: 'Steve',
+        age: 40,
+        role: 'Steve'
+    }
 ];
 
-export function logPerson(person: Person) {
-    console.log(
-        ` - ${person.name}, ${person.age}, ${person.type === 'admin' ? person.role : person.occupation}`
-    );
+const users: User[] = [
+    {
+        type: 'user',
+        name: 'Moses',
+        age: 70,
+        occupation: 'Desert guide'
+    },
+    {
+        type: 'user',
+        name: 'Superman',
+        age: 28,
+        occupation: 'Ordinary person'
+    }
+];
+
+export function swap(v1, v2) {
+    return [v2, v1];
 }
 
-export function filterPersons(persons: Person[], personType: string, criteria: unknown): unknown[] {
-    return persons
-        .filter((person) => person.type === personType)
-        .filter((person) => {
-            let criteriaKeys = Object.keys(criteria) as (keyof Person)[];
-            return criteriaKeys.every((fieldName) => {
-                return person[fieldName] === criteria[fieldName];
-            });
-        });
+function test1() {
+    console.log('test1:');
+    const [secondUser, firstAdmin] = swap(admins[0], users[1]);
+    logUser(secondUser);
+    logAdmin(firstAdmin);
 }
 
-export const usersOfAge23 = filterPersons(persons, 'user', { age: 23 });
-export const adminsOfAge23 = filterPersons(persons, 'admin', { age: 23 });
+function test2() {
+    console.log('test2:');
+    const [secondAdmin, firstUser] = swap(users[0], admins[1]);
+    logAdmin(secondAdmin);
+    logUser(firstUser);
+}
 
-console.log('Users of age 23:');
-usersOfAge23.forEach(logPerson);
+function test3() {
+    console.log('test3:');
+    const [secondUser, firstUser] = swap(users[0], users[1]);
+    logUser(secondUser);
+    logUser(firstUser);
+}
 
-console.log();
+function test4() {
+    console.log('test4:');
+    const [firstAdmin, secondAdmin] = swap(admins[1], admins[0]);
+    logAdmin(firstAdmin);
+    logAdmin(secondAdmin);
+}
 
-console.log('Admins of age 23:');
-adminsOfAge23.forEach(logPerson);
+function test5() {
+    console.log('test5:');
+    const [stringValue, numericValue] = swap(123, 'Hello World');
+    console.log(` - String: ${stringValue}`);
+    console.log(` - Numeric: ${numericValue}`);
+}
+
+[test1, test2, test3, test4, test5].forEach((test) => test());
 
 // In case you are stuck:
 // https://www.typescriptlang.org/docs/handbook/2/objects.html#tuple-types

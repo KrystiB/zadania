@@ -2,22 +2,28 @@
 
 Wprowadzenie:
 
-    Czas na filtrowanie danych! Aby być elastycznym
-    filtrujemy użytkowników za pomocą szeregu kryteriów i
-    zwracamy tylko tych spełniających wszystkie kryteria.
-    Nie potrzebujemy jeszcze administratorów, filtrujemy tylko użytkowników.
+    Wymagania dotyczące filtrowania wzrosły. Musimy być
+    być w stanie filtrować każdy rodzaj osób.
 
 Ćwiczenie:
 
-    Bez powielania struktur typów, zmodyfikuj definicję funkcji
-    filterUsers tak, abyśmy mogli
-    przekazywać tylko te kryteria, które są potrzebne,
-    a nie całe informacje o użytkowniku, ponieważ jest to
-    wymagane zgodnie z typowaniem.
+    Popraw typowanie dla filterPersons tak, aby mógł filtrować użytkowników
+    i zwracał User[] gdy personType='user' i zwracał Admin[]
+    gdy personType='admin'. Również filterPersons powinien akceptować
+    częściowy typ User/Admin zgodnie z personType.
+    Argument `criteria` powinien zachowywać się zgodnie z wartością argumentu
+    wartość argumentu `personType`. Pole `type` nie jest dozwolone w polu
+    polu `criteria`.
 
 Ćwiczenie bonusowe o wyższym poziomie trudności:
 
-    Wyklucz "typ" z kryteriów filtrowania.
+    Zaimplementuj funkcję `getObjectKeys()`, która zwraca bardziej
+    dogodny wynik dla dowolnego podanego argumentu, tak aby nie trzeba było
+    nie trzeba go rzutować.
+
+    let criteriaKeys = Object.keys(criteria) as (keyof User)[];
+    -->
+    let criteriaKeys = getObjectKeys(criteria);
 
 */
 
@@ -43,22 +49,16 @@ export const persons: Person[] = [
     { type: 'user', name: 'Kate Müller', age: 23, occupation: 'Astronaut' },
     { type: 'admin', name: 'Bruce Willis', age: 64, role: 'World saver' },
     { type: 'user', name: 'Wilson', age: 23, occupation: 'Ball' },
-    { type: 'admin', name: 'Agent Smith', age: 23, role: 'Anti-virus engineer' },
+    { type: 'admin', name: 'Agent Smith', age: 23, role: 'Anti-virus engineer' }
 ];
 
 export function logPerson(person: Person) {
     console.log(
-        ` - ${person.name}, ${person.age}, ${
-            person.type === 'admin' ? person.role : person.occupation
-        }`
+        ` - ${person.name}, ${person.age}, ${person.type === 'admin' ? person.role : person.occupation}`
     );
 }
 
-export function filterPersons<T extends Person>(
-    persons: T[],
-    personType: 'user' | 'admin',
-    criteria: Partial<User>,
-): T[] {
+export function filterPersons(persons: Person[], personType: string, criteria: unknown): unknown[] {
     return persons
         .filter((person) => person.type === personType)
         .filter((person) => {
