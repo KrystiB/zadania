@@ -15,4 +15,3 @@ function logPerson(user) {
     console.log(` - ${user.name}, ${user.age}`);
 }
 console.log('Users:');
-users.forEach(logPerson);
