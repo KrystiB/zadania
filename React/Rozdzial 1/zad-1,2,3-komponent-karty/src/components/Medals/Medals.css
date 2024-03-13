@@ -1,0 +1,22 @@
+.medals {
+    width: 100%;
+}
+.medals__title {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    font-size: 3.0em;
+}
+.medals__item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    font-size: 2.4em;
+}
+.item {
+    flex-direction: column;
+    text-align: center;
+}
+.item__quantity {
+    font-size: 2.2em;
+}
