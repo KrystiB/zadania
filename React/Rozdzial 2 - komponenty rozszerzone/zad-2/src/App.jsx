@@ -6,23 +6,26 @@ function App() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const fetchPost = async () => {
+        const fetchData = async () => {
             try {
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+
                 const response = await fetch(
                     'https://jsonplaceholder.typicode.com/posts'
                 );
                 if (!response.ok) {
-                    throw new Error('Wystąpił błąd podczas pobierania danych');
+                    throw new Error('Błąd podczas pobierania danych');
                 }
                 const data = await response.json();
                 setPost(data);
-                setIsLoading(false);
             } catch (error) {
                 console.error(error);
+            } finally {
                 setIsLoading(false);
             }
         };
-        fetchPost();
+
+        fetchData();
     }, []);
 
     return (

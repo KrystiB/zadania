@@ -40,62 +40,74 @@ function App() {
         };
         fetchData();
     }, []);
-    if (isLoading) {
-        return <div>Wczytywanie...</div>;
-    }
     const handleRowClick = (index) => {
         setExpandedRow(expandedRow === index ? null : index);
     };
     return (
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>User name</th>
-                    <th>Email</th>
-                    <th>Phone number</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {data.map(
-                    (
-                        { name, username, email, phone, address, website, company },
-                        index
-                    ) => [
-                        <tr key={index}>
-                            <td>{name}</td>
-                            <td>{username}</td>
-                            <td>{email}</td>
-                            <td>{phone}</td>
-                            <td>
-                                <button onClick={() => handleRowClick(index)}>
-                                    {expandedRow === index
-                                        ? 'Hide Details'
-                                        : 'Show Details'}
-                                </button>
-                            </td>
-                        </tr>,
-                        expandedRow === index && (
-                            <tr key={`${index}-details`}>
-                                <td colSpan="5">
-                                    <div>
-                                        <p>
-                                            Address: {address.street}, {address.suite},{' '}
-                                            {address.city}, {address.zipcode}
-                                        </p>
-                                        <p>Website: {website}</p>
-                                        <p>Company: {company.name}</p>
-                                        <p>Catch Phrase: {company.catchPhrase}</p>
-                                        <p>Business: {company.bs}</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        ),
-                    ]
-                )}
-            </tbody>
-        </table>
+        <div>
+            {isLoading ? (
+                <div>Wczytywanie...</div>
+            ) : (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>User name</th>
+                            <th>Email</th>
+                            <th>Phone number</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.map(
+                            (
+                                {
+                                    name,
+                                    username,
+                                    email,
+                                    phone,
+                                    address,
+                                    website,
+                                    company,
+                                },
+                                index
+                            ) => [
+                                <tr key={index}>
+                                    <td>{name}</td>
+                                    <td>{username}</td>
+                                    <td>{email}</td>
+                                    <td>{phone}</td>
+                                    <td>
+                                        <button onClick={() => handleRowClick(index)}>
+                                            {expandedRow === index
+                                                ? 'Hide Details'
+                                                : 'Show Details'}
+                                        </button>
+                                    </td>
+                                </tr>,
+                                expandedRow === index && (
+                                    <tr key={`${index}-details`}>
+                                        <td colSpan="5">
+                                            <div>
+                                                <p>
+                                                    Address: {address.street},{' '}
+                                                    {address.suite}, {address.city},{' '}
+                                                    {address.zipcode}
+                                                </p>
+                                                <p>Website: {website}</p>
+                                                <p>Company: {company.name}</p>
+                                                <p>Catch Phrase: {company.catchPhrase}</p>
+                                                <p>Business: {company.bs}</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ),
+                            ]
+                        )}
+                    </tbody>
+                </table>
+            )}
+        </div>
     );
 }
 

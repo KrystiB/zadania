@@ -10,31 +10,30 @@ const initialData = {
 };
 
 function App() {
-    const [{human, accountBalance}, setData] = useState(initialData);
+    const [{ human, accountBalance }, setData] = useState(initialData);
 
     const handleSexChange = () => {
-        setData((prevData) => ({
-            ...prevData,
+        setData((previousData) => ({
+            ...previousData,
             human: {
-                ...prevData.human,
-                sex: prevData.human.sex === 'man' ? 'woman' : 'man',
+                ...previousData.human,
+                sex: previousData.human.sex === 'man' ? 'woman' : 'man',
             },
         }));
     };
-
     const handleBuy = () => {
-        setData((prevData) => ({
-            ...prevData,
-            accountBalance: prevData.accountBalance - 500,
+        setData((previousData) => ({
+            ...previousData,
+            accountBalance: previousData.accountBalance-500,
         }));
     };
 
     const handleSell = () => {
-        setData((prevData) => ({
-            ...prevData,
-            accountBalance: prevData.accountBalance + 500,
-        }));
-    };
+        setData((previousData) => ({
+            ...previousData, 
+            accountBalance: previousData.accountBalance+500,
+        }))
+    }
 
     return (
         <>
