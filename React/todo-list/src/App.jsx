@@ -1,58 +1,109 @@
 import { useState } from 'react';
-import Icon from '@mdi/react';
-import { mdiMinus, mdiPlus } from '@mdi/js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import './App.css';
 
 function App() {
     const [list, setList] = useState([]);
     const [input, setInput] = useState('');
+    const [info, setInfo] = useState(false);
+    const [editedId, setEditedId] = useState(null);
 
-    const addTodo = (element) => {
-        if (input.trim() !== '') {
+    const addTodo = (todo) => {
+        if (input.trim() === '') {
+            setInfo(true);
+            return;
+        }
+        setInfo(false);
+
+        if (editedId !== null) {
+            setList((prev) =>
+                prev.map((prevItem) =>
+                    prevItem.id === editedId ? { ...prevItem, todo: input } : prevItem
+                )
+            );
+            setEditedId(null);
+            setInput('');
+        } else {
             const newTodo = {
                 id: Date.now(),
-                todo: element,
+                todo: todo,
+                done: false,
             };
-
-            setList([...list, newTodo]);
+            setList((prev) => [...prev, newTodo]);
             setInput('');
         }
-        console.log(element);
     };
 
     const deleteTodo = (id) => {
-        const newList = list.filter((element) => element.id !== id);
-console.log(newList);
-        setList(newList);
+        setList((prev) => prev.filter((element) => element.id !== id));
+    };
 
-        
+    const changeTodo = (id, todo) => {
+        setEditedId(id);
+        setInput(todo);
+    };
+
+    const checkBoxChange = (id, checked) => {
+        const updatedList = list.map((item) => {
+            if (item.id === id) {
+                return { ...item, done: checked };
+            }
+            return item;
+        });
+        setList(updatedList);
     };
 
     return (
-        <>
+        <div className="app">
             <h1>ToDo List</h1>
-            <input
-                type="text"
-                value={input}
-                onChange={(element) => setInput(element.target.value)}
-            />
-            <button onClick={() => addTodo(input)}>
-                Add
-                <Icon path={mdiPlus} size={0.7} />
-            </button>
-            <ul>
+            <div className="flex-row">
+                <input
+                    type="text"
+                    value={input}
+                    onChange={(element) => setInput(element.target.value)}
+                    className="todo-input"
+                    placeholder="Wpisz zadania na dziś"
+                />
+                <button type="submit" onClick={() => addTodo(input)} className="todo-btn">
+                   {editedId? 'Zapisz' : 'Dodaj'} zadanie
+                </button>
+            </div>
+            {info ? <div className="info-text">Podaj coś!</div> : ''}
+            <ul className="todo-list">
                 {list.map((element) => {
                     return (
-                        <li key={element.id}>
-                            {element.todo}
-                            <button onClick={() => deleteTodo(element.id)}>
-                                <Icon path={mdiMinus} size={0.7} />
-                            </button>
+                        <li
+                            key={element.id}
+                            className={`todo-item ${element.done ? 'done' : ''}`}
+                        >
+                            <input
+                                type="checkbox"
+                                checked={element.done}
+                                onChange={(event) =>
+                                    checkBoxChange(element.id, event.target.checked)
+                                }
+                            />
+                            <span className="todo-text">{element.todo}</span>
+                            <div>
+                                <button
+                                    onClick={() => deleteTodo(element.id)}
+                                    className="delete-button"
+                                >
+                                    <FontAwesomeIcon icon={faTrash} size="2x" />
+                                </button>
+                                <button
+                                    onClick={() => changeTodo(element.id, element.todo)}
+                                    className="edit-button"
+                                >
+                                    Edytuj
+                                </button>
+                            </div>
                         </li>
                     );
                 })}
             </ul>
-        </>
+        </div>
     );
 }
 

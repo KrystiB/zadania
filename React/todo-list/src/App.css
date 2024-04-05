@@ -1,6 +1,57 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.app {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.todo-input {
+    width: 80%;
+}
+
+.todo-btn {
+    width: 20%;
+    height: 36px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.info-text {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.todo-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.delete-button,
+.edit-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-button {
+    color: #007bff;
+}
+
+.todo-item.done .todo-text {
+    text-decoration: line-through;
 }

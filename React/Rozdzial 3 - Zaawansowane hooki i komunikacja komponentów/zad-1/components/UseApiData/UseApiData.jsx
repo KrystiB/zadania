@@ -7,7 +7,7 @@ const UseApiData = (apiUrl) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                await new Promise((resolve) => setTimeout(resolve, 5000));
+                // await new Promise((resolve) => setTimeout(resolve, 5000));
                 const response = await fetch(apiUrl);
                 if (!response.ok) {
                     throw new Error('Błąd podczas pobierania danych');
