@@ -66,10 +66,10 @@ function App() {
                     placeholder="Wpisz zadania na dziś"
                 />
                 <button type="submit" onClick={() => addTodo(input)} className="todo-btn">
-                   {editedId? 'Zapisz' : 'Dodaj'} zadanie
+                    {editedId ? 'Zapisz' : 'Dodaj'} zadanie
                 </button>
             </div>
-            {info ? <div className="info-text">Podaj coś!</div> : ''}
+            {info ? <div className="info-text">Nie może być puste</div> : ''}
             <ul className="todo-list">
                 {list.map((element) => {
                     return (
