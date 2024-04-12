@@ -8,6 +8,7 @@ function App() {
     const [input, setInput] = useState('');
     const [info, setInfo] = useState(false);
     const [editedId, setEditedId] = useState(null);
+    // const [editedTodo, setEditedTodo] = useState('');
 
     const addTodo = (todo) => {
         if (input.trim() === '') {
@@ -37,12 +38,16 @@ function App() {
 
     const deleteTodo = (id) => {
         setList((prev) => prev.filter((element) => element.id !== id));
+        if(editedId === id) {
+            setInput('');
+        }
     };
 
     const changeTodo = (id, todo) => {
         setEditedId(id);
         setInput(todo);
     };
+    
 
     const checkBoxChange = (id, checked) => {
         const updatedList = list.map((item) => {
@@ -84,7 +89,8 @@ function App() {
                                     checkBoxChange(element.id, event.target.checked)
                                 }
                             />
-                            <span className="todo-text">{element.todo}</span>
+                            {/* dodajemy nowy input w zaleznosci edited === element.id ? */}
+                            <span className="todo-text" onDoubleClick={() => changeTodo(element.id, element.todo)}>{element.todo}</span>
                             <div>
                                 <button
                                     onClick={() => deleteTodo(element.id)}

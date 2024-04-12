@@ -40,6 +40,15 @@ function reducer(state, action) {
         }
         case 'remove_all_items':
             return { ...state, cartItems: [] };
+        case 'increase_item_count': {
+            const updatedCartItems = state.cartItems.map((item) => {
+                if (item.name === action.payload.name) {
+                    return { ...item, count: item.count + 1 };
+                }
+                return item;
+            });
+            return { ...state, cartItems: updatedCartItems };
+        }
         default:
             return state;
     }
@@ -52,11 +61,15 @@ function App() {
     const [itemCount, setItemCount] = useState('');
 
     const addItemToCart = () => {
+        if (!itemName || !itemPrice || !itemCount) {
+            alert('Uzupełnij wszystkie pola');
+            return;
+        }
         const newItem = {
             name: itemName,
             id: Date.now(),
-            price: itemPrice,
-            count: itemCount,
+            price: parseFloat(itemPrice),
+            count: parseInt(itemCount),
         };
         dispatch({ type: 'add_item', payload: newItem });
 
@@ -72,10 +85,21 @@ function App() {
     const removeAllItemsFromCart = () => {
         dispatch({ type: 'remove_all_items' });
     };
-    
+
     const total = (item) => {
-        return item.price * item.count
-    }
+        return item.price * item.count;
+    };
+
+    const totalPrice = () => {
+        return state.cartItems.reduce(
+            (total, item) => total + item.price * item.count,
+            0
+        );
+    };
+
+    const increaseItemCount = (itemName) => {
+        dispatch({ type: 'increase_item_count', payload: { name: itemName } });
+    };
     return (
         <>
             <h1>Koszyk sklepowy</h1>
@@ -86,9 +110,12 @@ function App() {
                     {state.cartItems.map((item) => (
                         <div key={item.id}>
                             <p>
-                                {item.name} - Cena: {item.price} zł - Ilość: {item.count} - Suma: {total(item)}
+                                {item.name} - Cena: {item.price} zł - Ilość: {item.count}{' '}
+                                - Suma: {total(item)}
                             </p>
-                            <button onClick={() => addItemToCart(item)}>Dodaj</button>
+                            <button onClick={() => increaseItemCount(item.name)}>
+                                Dodaj ilość
+                            </button>
                             <button onClick={() => removeItemFromCart(item.id)}>
                                 Usuń
                             </button>
@@ -97,7 +124,7 @@ function App() {
                     <button onClick={() => removeAllItemsFromCart()}>
                         Wyczyść koszyk
                     </button>
-                    <p>Suma przedmiotów w koszyku: </p>
+                    <p>Suma wartości w koszyku: {totalPrice()} zł</p>
                 </div>
             )}
             <input
