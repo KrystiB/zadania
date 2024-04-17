@@ -1,21 +1,44 @@
-import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from 'react';
 import './App.css';
+import TodoInput from '../components/TodoInput';
+import TodoList from '../components/TodoList';
 
 function App() {
     const [list, setList] = useState([]);
     const [input, setInput] = useState('');
-    const [info, setInfo] = useState(false);
+    const [error, setError] = useState(false);
     const [editedId, setEditedId] = useState(null);
-    // const [editedTodo, setEditedTodo] = useState('');
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(
+                    'https://jsonplaceholder.typicode.com/todos'
+                );
+                if (!response.ok) {
+                    throw new Error('Błąd sieci');
+                }
+                const data = await response.json();
+                setList(
+                    data.map((item) => ({
+                        id: `${item.id} + fetchTodo`,
+                        todo: item.title,
+                        done: item.completed,
+                    }))
+                );
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
 
     const addTodo = (todo) => {
         if (input.trim() === '') {
-            setInfo(true);
+            setError(true);
             return;
         }
-        setInfo(false);
+        setError(false);
 
         if (editedId !== null) {
             setList((prev) =>
@@ -25,21 +48,22 @@ function App() {
             );
             setEditedId(null);
             setInput('');
-        } else {
-            const newTodo = {
-                id: Date.now(),
-                todo: todo,
-                done: false,
-            };
-            setList((prev) => [...prev, newTodo]);
-            setInput('');
+            return;
         }
+        const newTodo = {
+            id: Date.now(),
+            todo: todo,
+            done: false,
+        };
+        setList((prev) => [...prev, newTodo]);
+        setInput('');
     };
 
     const deleteTodo = (id) => {
         setList((prev) => prev.filter((element) => element.id !== id));
-        if(editedId === id) {
+        if (editedId === id) {
             setInput('');
+            setEditedId(null);
         }
     };
 
@@ -47,68 +71,34 @@ function App() {
         setEditedId(id);
         setInput(todo);
     };
-    
 
     const checkBoxChange = (id, checked) => {
-        const updatedList = list.map((item) => {
-            if (item.id === id) {
-                return { ...item, done: checked };
-            }
-            return item;
-        });
-        setList(updatedList);
+        setList(
+            list.map((item) => {
+                if (item.id === id) {
+                    return { ...item, done: checked };
+                }
+                return item;
+            })
+        );
     };
 
     return (
         <div className="app">
             <h1>ToDo List</h1>
-            <div className="flex-row">
-                <input
-                    type="text"
-                    value={input}
-                    onChange={(element) => setInput(element.target.value)}
-                    className="todo-input"
-                    placeholder="Wpisz zadania na dziś"
-                />
-                <button type="submit" onClick={() => addTodo(input)} className="todo-btn">
-                    {editedId ? 'Zapisz' : 'Dodaj'} zadanie
-                </button>
-            </div>
-            {info ? <div className="info-text">Nie może być puste</div> : ''}
-            <ul className="todo-list">
-                {list.map((element) => {
-                    return (
-                        <li
-                            key={element.id}
-                            className={`todo-item ${element.done ? 'done' : ''}`}
-                        >
-                            <input
-                                type="checkbox"
-                                checked={element.done}
-                                onChange={(event) =>
-                                    checkBoxChange(element.id, event.target.checked)
-                                }
-                            />
-                            {/* dodajemy nowy input w zaleznosci edited === element.id ? */}
-                            <span className="todo-text" onDoubleClick={() => changeTodo(element.id, element.todo)}>{element.todo}</span>
-                            <div>
-                                <button
-                                    onClick={() => deleteTodo(element.id)}
-                                    className="delete-button"
-                                >
-                                    <FontAwesomeIcon icon={faTrash} size="2x" />
-                                </button>
-                                <button
-                                    onClick={() => changeTodo(element.id, element.todo)}
-                                    className="edit-button"
-                                >
-                                    Edytuj
-                                </button>
-                            </div>
-                        </li>
-                    );
-                })}
-            </ul>
+            <TodoInput
+                addTodo={addTodo}
+                error={error}
+                editedId={editedId}
+                input={input}
+                setInput={setInput}
+            />
+            <TodoList
+                list={[...list].reverse()}
+                checkBoxChange={checkBoxChange}
+                deleteTodo={deleteTodo}
+                changeTodo={changeTodo}
+            />
         </div>
     );
 }
