@@ -72,21 +72,27 @@ const TodoProvider = ({ children }) => {
         [setList, editedId, setInput]
     );
 
-    const changeTodo = (id, todo) => {
-        setEditedId(id);
-        setInput(todo);
-    };
+    const changeTodo = useCallback(
+        (id, todo) => {
+            setEditedId(id);
+            setInput(todo);
+        },
+        [setEditedId, setInput]
+    );
 
-    const checkBoxChange = (id, checked) => {
-        setList(
-            list.map((item) => {
-                if (item.id === id) {
-                    return { ...item, done: checked };
-                }
-                return item;
-            })
-        );
-    };
+    const checkBoxChange = useCallback(
+        (id, checked) => {
+            setList(
+                list.map((item) => {
+                    if (item.id === id) {
+                        return { ...item, done: checked };
+                    }
+                    return item;
+                })
+            );
+        },
+        [setList, list]
+    );
 
     return (
         <TodoContext.Provider

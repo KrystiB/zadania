@@ -18,7 +18,7 @@ function TodoList() {
     };
     const renderedTodoListItem = ({ id, done, todo }) => {
         return (
-            <li key={id} className={`todo-item ${done ? 'done' : ''}`}>
+            <li key={id} className={`todo-item ${done && 'done'}`}>
                 <input
                     type="checkbox"
                     checked={done}
