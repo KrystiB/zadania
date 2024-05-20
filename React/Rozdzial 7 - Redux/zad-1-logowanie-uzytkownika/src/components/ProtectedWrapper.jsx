@@ -7,7 +7,11 @@ const ProtectedWrapper = ({ children }) => {
     if (!isLoggedIn) {
         return <LoginButton></LoginButton>;
     }
-    return <div>{children}</div>;
+    return (
+        <>
+            {children}
+        </>
+    );
 };
 
 export default ProtectedWrapper;

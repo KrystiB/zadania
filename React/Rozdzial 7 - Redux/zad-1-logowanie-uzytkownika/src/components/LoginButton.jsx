@@ -14,7 +14,7 @@ const LoginButton = () => {
 
     return (
         <div>
-            <button onClick={handleLogin}>Zaloguj</button>
+            <button onClick={handleLogin}>{!isLoggedIn ? 'Zaloguj' : 'Wyloguj'}</button>
         </div>
     );
 };

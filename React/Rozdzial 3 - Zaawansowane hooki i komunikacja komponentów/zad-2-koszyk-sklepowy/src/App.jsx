@@ -65,6 +65,10 @@ function App() {
             alert('Uzupełnij wszystkie pola');
             return;
         }
+        if (itemPrice <= 0 || itemCount <= 0) {
+            alert('Cena oraz ilość musi być większe niż 0');
+            return;
+        }
         const newItem = {
             name: itemName,
             id: Date.now(),
