@@ -12,8 +12,7 @@ import * as Yup from 'yup';
 import { useNavigate, Link } from 'react-router-dom';
 
 const AddVolunteerForm = () => {
-    const navigate = useNavigate()
-
+    const navigate = useNavigate();
     const validationSchema = Yup.object({
         firstName: Yup.string()
             .min(5, 'Imię musi mieć minimum 5 znaków')
@@ -49,7 +48,7 @@ const AddVolunteerForm = () => {
         onSubmit: async (values) => {
             try {
                 await ApiService.addVolunteer(values);
-                navigate('/profiles')
+                navigate('/profiles');
             } catch (error) {
                 console.error('Błąd', error);
             }
@@ -69,8 +68,24 @@ const AddVolunteerForm = () => {
                 mt: 4,
             }}
         >
-            <Typography variant="h5" sx={{ textAlign: 'center', marginBottom: 2, display: 'flex', justifyContent: 'space-between'}}>
-                Dodaj Nowego Wolontariusza <Button component={Link} to='/profiles' color='secondary' variant='outlined'>Cofnij</Button>
+            <Typography
+                variant="h5"
+                sx={{
+                    textAlign: 'center',
+                    marginBottom: 2,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                }}
+            >
+                Dodaj Nowego Wolontariusza{' '}
+                <Button
+                    component={Link}
+                    to="/profiles"
+                    color="secondary"
+                    variant="outlined"
+                >
+                    Cofnij
+                </Button>
             </Typography>
             <form onSubmit={formik.handleSubmit}>
                 <TextField
@@ -108,9 +123,9 @@ const AddVolunteerForm = () => {
                 />
                 <FormControlLabel
                     control={<Checkbox checked={formik.values.volunteering} />}
-                    id='volunteering'
-                    name='volunteering'
-                    color='primary'
+                    id="volunteering"
+                    name="volunteering"
+                    color="primary"
                     onChange={formik.handleChange}
                     label="Chcę być wolontariuszem"
                 />
@@ -143,7 +158,9 @@ const AddVolunteerForm = () => {
                     label="Numer telefonu"
                     value={formik.values.phoneNumber}
                     onChange={formik.handleChange}
-                    error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+                    error={
+                        formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
+                    }
                     helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
                     margin="normal"
                 />
@@ -157,6 +174,13 @@ const AddVolunteerForm = () => {
                     Dodaj
                 </Button>
             </form>
+            {formik.values.imageLink && (
+                <img
+                    src={formik.values.imageLink}
+                    alt="Avatar"
+                    style={{ maxWidth: '100%', marginTop: '20px' }}
+                />
+            )}
         </Box>
     );
 };
