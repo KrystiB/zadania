@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 const useForm = (initialValues) => {
     const [values, setValues] = useState(initialValues);
+    const [touched, setTouched] = useState({});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -11,9 +12,19 @@ const useForm = (initialValues) => {
         });
     };
 
+    const handleBlur = (e) => {
+        const { name } = e.target;
+        setTouched({
+            ...touched,
+            [name]: true,
+        });
+    };
+
     return {
         values,
+        touched,
         handleChange,
+        handleBlur,
     };
 };
 
