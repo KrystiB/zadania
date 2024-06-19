@@ -1,5 +1,4 @@
 import { useReducer, useState } from 'react';
-import './App.css';
 
 const initialState = {
     cartItems: [
