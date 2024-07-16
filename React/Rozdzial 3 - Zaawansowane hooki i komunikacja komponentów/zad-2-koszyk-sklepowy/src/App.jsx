@@ -1,4 +1,5 @@
 import { useReducer, useState } from 'react';
+import './App.css';
 
 const initialState = {
     cartItems: [
@@ -10,6 +11,7 @@ const initialState = {
         },
     ],
 };
+
 function reducer(state, action) {
     switch (action.type) {
         case 'add_item': {
@@ -104,52 +106,63 @@ function App() {
         dispatch({ type: 'increase_item_count', payload: { name: itemName } });
     };
     return (
-        <>
+        <div className="cart">
             <h1>Koszyk sklepowy</h1>
             {state.cartItems.length === 0 ? (
-                <p>Koszyk jest pusty</p>
+                <p className="cart-empty">Koszyk jest pusty</p>
             ) : (
                 <div>
                     {state.cartItems.map((item) => (
-                        <div key={item.id}>
+                        <div className="cart-item" key={item.id}>
                             <p>
                                 {item.name} - Cena: {item.price} zł - Ilość: {item.count}{' '}
                                 - Suma: {total(item)}
                             </p>
-                            <button onClick={() => increaseItemCount(item.name)}>
-                                Dodaj ilość
-                            </button>
-                            <button onClick={() => removeItemFromCart(item.id)}>
-                                Usuń
-                            </button>
+                            <div>
+                                <button onClick={() => increaseItemCount(item.name)}>
+                                    Dodaj ilość
+                                </button>
+                                <button onClick={() => removeItemFromCart(item.id)}>
+                                    Usuń
+                                </button>
+                            </div>
                         </div>
                     ))}
-                    <button onClick={() => removeAllItemsFromCart()}>
+
+                    <p className="cart-total">
+                        Suma wartości w koszyku: {totalPrice()} zł
+                    </p>
+                    <button
+                        className="cart-button"
+                        onClick={() => removeAllItemsFromCart()}
+                    >
                         Wyczyść koszyk
                     </button>
-                    <p>Suma wartości w koszyku: {totalPrice()} zł</p>
                 </div>
             )}
-            <input
-                type="text"
-                value={itemName}
-                onChange={(element) => setItemName(element.target.value)}
-                placeholder="Nazwa przedmiotu"
-            />
-            <input
-                type="number"
-                value={itemPrice}
-                onChange={(element) => setItemPrice(element.target.value)}
-                placeholder="Cena produktu"
-            />
-            <input
-                type="number"
-                value={itemCount}
-                onChange={(element) => setItemCount(element.target.value)}
-                placeholder="Ilość produktu"
-            />
-            <button onClick={addItemToCart}>Dodaj przedmiot</button>
-        </>
+            <div className="input-group">
+                <input
+                    type="text"
+                    value={itemName}
+                    onChange={(element) => setItemName(element.target.value)}
+                    placeholder="Nazwa przedmiotu"
+                />
+                <input
+                    type="number"
+                    value={itemPrice}
+                    onChange={(element) => setItemPrice(element.target.value)}
+                    placeholder="Cena produktu"
+                />
+                <input
+                    type="number"
+                    value={itemCount}
+                    onChange={(element) => setItemCount(element.target.value)}
+                    placeholder="Ilość produktu"
+                />
+                <button onClick={addItemToCart}>Dodaj przedmiot</button>
+            </div>
+        </div>
     );
 }
+
 export default App;

@@ -6,11 +6,12 @@ class Autocomplete {
         this.listeners = {
             close: [],
             open: [],
-            selected: []
-        }
+            selected: [],
+        };
 
         this.inputBox.addEventListener('input', this.handleInput.bind(this));
         this.inputBox.addEventListener('keydown', this.handleInput.bind(this));
+        this.inputBox.addEventListener('focus', this.handleFocus.bind(this));
     }
 
     display(result) {
@@ -25,11 +26,13 @@ class Autocomplete {
     handleInput() {
         let result = [];
         let input = this.inputBox.value;
-        
+
         if (input.length) {
             result = this.availableKeywords.filter((keyword) => {
                 return keyword.toLowerCase().includes(input.toLowerCase());
             });
+        } else {
+            result = this.availableKeywords;
         }
 
         this.display(result);
@@ -39,20 +42,26 @@ class Autocomplete {
         }
     }
 
+    handleFocus() {
+        if (!this.inputBox.value.length) {
+            this.display(this.availableKeywords);
+        }
+    }
+
     selectInput(list) {
         this.inputBox.value = list.innerText;
         this.resultBox.innerHTML = '';
         this.fireEvent('selected');
     }
 
-    addEventListener(event, callback){
-        if(this.listeners[event]) {
+    addEventListener(event, callback) {
+        if (this.listeners[event]) {
             this.listeners[event].push(callback);
         }
     }
 
-    fireEvent(event){
-        if(this.listeners[event]) {
+    fireEvent(event) {
+        if (this.listeners[event]) {
             this.listeners[event].forEach((callback) => {
                 callback();
             });
